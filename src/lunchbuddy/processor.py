@@ -70,9 +70,7 @@ class BrowserAutomator:
             except PlaywrightTimeoutError:
                 logger.info("'Get Started' button not found, continuing...")
 
-            await self.fill_text_field(
-                "#inpt.ushur-visualmenu-open-input.ushurapp-input.form-control", email
-            )
+            await self.fill_text_field("input[type='email']", email)
             logger.info(f"Entered email: {email}")
 
             await self.button_click("button:has-text('Next')")
@@ -81,6 +79,9 @@ class BrowserAutomator:
             await self.button_click("span:has-text('Yes')")
             logger.info("Clicked 'Yes' confirmation")
 
+            await self.page.wait_for_selector(
+                f"span:has-text('{dietary_preference.value}')"
+            )
             await self.button_click(f"span:has-text('{dietary_preference.value}')")
             logger.info(f"Selected dietary preference: {dietary_preference.value}")
 
